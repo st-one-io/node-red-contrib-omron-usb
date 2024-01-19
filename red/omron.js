@@ -204,7 +204,6 @@ module.exports = function (RED) {
          * @returns {Promise}
          */
         async function disconnect(reconnect = true) {
-            // if (!connected) return;
             connected = false;
 
             clearInterval(_cycleInterval);
@@ -220,7 +219,7 @@ module.exports = function (RED) {
         }
 
         async function connect() {
-            // if (!Omron) return that.error('Missing "@protocols/node-omron-usb" dependency, avaliable only on the ST-One hardware. Please contact us at "st-one.io" for pricing and more information.');
+            if (!Omron) return that.error('Missing "@protocols/node-omron-usb" dependency, avaliable only on the ST-One hardware. Please contact us at "st-one.io" for pricing and more information.');
 
             manageStatus("connecting");
 
