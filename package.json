@@ -1,0 +1,26 @@
+{
+  "name": "node-red-contrib-omron-usb",
+  "version": "1.0.0",
+  "description": "Node to comunication with Omron PLC with USB port",
+  "main": "omron.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "omron": "red/omron.js"
+    }
+  },
+  "keywords": [
+    "plc",
+    "omron",
+    "node-red",
+    "usb",
+    "protocol"
+  ],
+  "author": "Fernando Amorim <fernando.amorim@st-one.io>",
+  "license": "ISC",
+  "dependencies": {
+    "@protocolos/node-omron-usb": "file:../node-omron-usb"
+  }
+}
