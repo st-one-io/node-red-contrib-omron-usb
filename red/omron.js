@@ -22,7 +22,7 @@ module.exports = function (RED) {
     function generateStatus(status, val) {
         let obj;
         if (typeof val != "string" && typeof val != "number" && typeof val != "boolean") {
-            val = RED._("omron,endpoint.status.online");
+            val = RED._("omron.endpoint.status.online");
         }
         switch (status) {
             case "online":
@@ -106,8 +106,8 @@ module.exports = function (RED) {
         let connected = false;
         let status;
         let that = this;
-        let omronEndpoint = null;
         let addressGroup = null;
+        that.endpointOmron = null
 
         RED.nodes.createNode(this, config);
 
@@ -190,11 +190,11 @@ module.exports = function (RED) {
         }
 
         function removeListeners() {
-            if (omronEndpoint !== null) {
-                omronEndpoint.removeListener("connected", onConnect);
-                omronEndpoint.removeListener("disconnected", onDisconnect);
-                omronEndpoint.removeListener("error", onError);
-                omronEndpoint.removeListener("timeout", onTimeout);
+            if (that.endpointOmron !== null) {
+                that.endpointOmron.removeListener("connected", onConnect);
+                that.endpointOmron.removeListener("disconnected", onDisconnect);
+                that.endpointOmron.removeListener("error", onError);
+                that.endpointOmron.removeListener("timeout", onTimeout);
             }
         }
 
@@ -208,11 +208,11 @@ module.exports = function (RED) {
 
             clearInterval(_cycleInterval);
             _cycleInterval = null;
-
-            if (omronEndpoint) {
-                if (!reconnect) omronEndpoint.removeListener("disconnected", onDisconnect);
-                omronEndpoint.destroy();
-                omronEndpoint = null;
+            
+            if (that.endpointOmron) {
+                if (!reconnect) that.endpointOmron.removeListener("disconnected", onDisconnect);
+                that.endpointOmron.destroy().then(() => {return})
+                that.endpointOmron = null;
             }
 
             console.log("Endpoint - disconnect");
@@ -228,18 +228,18 @@ module.exports = function (RED) {
                 _reconnectTimeout = null;
             }
 
-            if (omronEndpoint !== null) {
+            if (that.omronEndpoint !== null) {
                 await disconnect();
             }
 
-            omronEndpoint = new Omron.OmronEndpoint({timeout: timeout,dev: config.usb});
+            that.endpointOmron = new Omron.OmronEndpoint({timeout: timeout,dev: config.usb});
 
-            omronEndpoint.on("connected", onConnect);
-            omronEndpoint.on("disconnected", onDisconnect);
-            omronEndpoint.on("error", onError);
-            omronEndpoint.on("timeout", onTimeout);
+            that.endpointOmron.on("connected", onConnect);
+            that.endpointOmron.on("disconnected", () => onDisconnect);
+            that.endpointOmron.on("error", onError);
+            that.endpointOmron.on("timeout", onTimeout);
 
-            omronEndpoint.connect();
+            that.endpointOmron.connect();
         }
 
         function onConnect() {
@@ -247,7 +247,7 @@ module.exports = function (RED) {
             readDeferred = 0;
             connected = true;
 
-            addressGroup = new Omron.OmronItemGroup(omronEndpoint);
+            addressGroup = new Omron.OmronItemGroup(that.endpointOmron);
 
             manageStatus("online");
 
@@ -312,9 +312,9 @@ module.exports = function (RED) {
             that.removeListener("__UPDATE_CYCLE__", updateCycleEvent);
             that.removeListener("__GET_STATUS__", getStatus);
 
-            disconnect(false)
-                .then(done)
-                .catch((err) => onError(err)); //TODO:
+            that.endpointOmron.destroy()
+                .then(() => done())
+                .catch(err => onError(err))
 
             console.log("Endpoint - on close!");
         });
