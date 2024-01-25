@@ -228,7 +228,7 @@ module.exports = function (RED) {
                 _reconnectTimeout = null;
             }
 
-            if (that.omronEndpoint !== null) {
+            if (that.endpointOmron !== null) {
                 await disconnect();
             }
 
