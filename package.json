@@ -21,6 +21,6 @@
   "author": "Fernando Amorim <fernando.amorim@st-one.io>",
   "license": "ISC",
   "dependencies": {
-    "@protocolos/node-omron-usb": "file:../node-omron-usb"
+    "@protocols/node-omron-usb": "1.0.0"
   }
 }
