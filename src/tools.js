@@ -4,7 +4,6 @@ class Tools {
     constructor(){}
 
     getAvailablesUsb(){
-        console.log("Here node")
         return omron ? omron.usbManager.getDevicesOmron() : [];
     }
 }
