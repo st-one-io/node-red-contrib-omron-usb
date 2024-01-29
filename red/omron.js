@@ -1,6 +1,6 @@
 //@ts-check
 try {
-    var Omron = require("@protocolos/node-omron-usb");
+    var Omron = require("@protocols/node-omron-usb");
 } catch (error) {
     var Omron = null;
 }

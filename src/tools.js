@@ -1,4 +1,4 @@
-const omron = require('@protocolos/node-omron-usb');
+const omron = require('@protocols/node-omron-usb');
 
 class Tools {
     constructor(){}
