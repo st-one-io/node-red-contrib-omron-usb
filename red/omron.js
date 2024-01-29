@@ -263,7 +263,7 @@ module.exports = function (RED) {
                     addressGroup.addItems(varKeys);
                     updateCycleTime(currentCycleTime);
                 }catch (e){
-                    that.error(e)
+                    onError(e)
                 }
             }
         }
