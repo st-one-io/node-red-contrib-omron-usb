@@ -259,8 +259,12 @@ module.exports = function (RED) {
             if (!varKeys || !varKeys.length) {
                 that.warn(RED._("omron.endpoint.info.novars"));
             } else {
-                addressGroup.addItems(varKeys);
-                updateCycleTime(currentCycleTime);
+                try{
+                    addressGroup.addItems(varKeys);
+                    updateCycleTime(currentCycleTime);
+                }catch (e){
+                    that.error(e)
+                }
             }
         }
 
