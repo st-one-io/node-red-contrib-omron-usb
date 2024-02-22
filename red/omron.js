@@ -211,7 +211,7 @@ module.exports = function (RED) {
             
             if (that.endpointOmron) {
                 if (!reconnect) that.endpointOmron.removeListener("disconnected", onDisconnect);
-                that.endpointOmron.destroy().then().catch(err => onError(err))
+                that.endpointOmron.destroy(onDisconnect()).then().catch(err => onError(err))
                 that.endpointOmron = null;
             }
 
