@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-omron-usb",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Node to comunication with Omron PLC with USB port",
   "main": "omron.js",
   "scripts": {
@@ -30,5 +30,8 @@
   "license": "ISC",
   "dependencies": {
     "@protocols/node-omron-usb": "1.0.0"
-  }
+  },
+  "bundledDependencies": [
+    "@protocols/node-omron-usb"
+  ]
 }
